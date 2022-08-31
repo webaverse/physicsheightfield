@@ -54,7 +54,7 @@ export default () => {
     }
   }
   // }
-  // geometry.computeVertexNormals();
+  geometry.computeVertexNormals();
   const material = new THREE.MeshStandardMaterial( {color: 'gray'} );
   material.flatShading = true;
   const mesh = new THREE.Mesh( geometry, material );
@@ -62,7 +62,7 @@ export default () => {
 
   //
 
-  physics.addHeightFieldGeometry(numRows, numColumns, heights, heightScale, rowScale, columnScale);
+  physics.addHeightFieldGeometry(mesh, numRows, numColumns, heights, heightScale, rowScale, columnScale);
   // physics.addHeightFieldGeometry(2, 2, [0, 0, 1, 1], 1, 1, 1);
   
   return app;
