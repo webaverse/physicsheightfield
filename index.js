@@ -6,10 +6,18 @@ export default () => {
   const app = useApp();
   const physics = usePhysics();
 
+  //
+
+  const getHeight = (x, z, numRows, numColumns) => { // result must be int16.
+    return x % 2 + (numColumns - z);
+  }
+
+  //
+
   const numRows = 10; // int, x axis
   const numColumns = 5; // int, z axis
-  const heightScale = 1; // float
-  const rowScale = 1; // float, x axis
+  const heightScale = 0.7; // float
+  const rowScale = 2; // float, x axis
   const columnScale = 1; // float, z axis
   const heights = []; // int16
   const numVerts = numRows * numColumns;
@@ -19,7 +27,7 @@ export default () => {
   for (let x = 0; x < numRows; x++) {
     for (let z = 0; z < numColumns; z++) {
       // const i = z + x * numColumns;
-      const height = x % 2;
+      const height = getHeight(x, z, numRows, numColumns);
 
       heights.push(height);
     }
@@ -37,14 +45,18 @@ export default () => {
     for (let x = 0; x < numRows; x++) {
       const i = x + z * numRows;
       geometry.attributes.position.array[i * 3 + 0] += sizeX / 2;
-      geometry.attributes.position.array[i * 3 + 1] = x % 2;
+      geometry.attributes.position.array[i * 3 + 1] = getHeight(x, z, numRows, numColumns);
       geometry.attributes.position.array[i * 3 + 2] += sizeZ / 2;
-
-      // heights.push(geometry.attributes.position.array[i * 3 + 1]);
+      
+      geometry.attributes.position.array[i * 3 + 0] *= rowScale;
+      geometry.attributes.position.array[i * 3 + 1] *= heightScale;
+      geometry.attributes.position.array[i * 3 + 2] *= columnScale;
     }
   }
   // }
+  // geometry.computeVertexNormals();
   const material = new THREE.MeshStandardMaterial( {color: 'gray'} );
+  material.flatShading = true;
   const mesh = new THREE.Mesh( geometry, material );
   app.add( mesh );
 
