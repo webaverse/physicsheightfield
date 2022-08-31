@@ -18,7 +18,7 @@ export default () => {
   // }
   for (let x = 0; x < numRows; x++) {
     for (let z = 0; z < numColumns; z++) {
-      const i = z + x * numColumns;
+      // const i = z + x * numColumns;
       const height = x % 2;
 
       heights.push(height);
@@ -30,12 +30,12 @@ export default () => {
   
   const sizeX = numRows - 1;
   const sizeZ = numColumns - 1;
-  const geometry = new THREE.PlaneGeometry( sizeX, sizeZ );
+  const geometry = new THREE.PlaneGeometry(sizeX, sizeZ, sizeX, sizeZ);
   geometry.rotateX(-Math.PI / 2);
   // for (let i = 0; i < geometry.attributes.position.array.length; i += 3) {
-  for (let z = 0; z < sizeZ; z++) {
-    for (let x = 0; x < sizeX; x++) {
-      const i = x + z * sizeX;
+  for (let z = 0; z < numColumns; z++) {
+    for (let x = 0; x < numRows; x++) {
+      const i = x + z * numRows;
       geometry.attributes.position.array[i * 3 + 0] += sizeX / 2;
       geometry.attributes.position.array[i * 3 + 1] = x % 2;
       geometry.attributes.position.array[i * 3 + 2] += sizeZ / 2;
